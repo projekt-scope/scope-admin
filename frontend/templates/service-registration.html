@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{{ super() }}
+{% block title %}SCOPE - Dashboard{% endblock %}
+{% block subtitle %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1 class="h4 mb-2 text-gray-800">Register new service with git</h1>
+<div style="padding-bottom: 1%;">
+  <input size="70" placeholder="git url" no-label-float="" tabindex="0" aria-disabled="false" id="git_url"
+    value="https://oauth2:token@gitlab.itc-engineering.com/scope/teddy-service.git"></input>
+</div>
+
+<a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="register"><i
+    class="fas fa-hammer fa-sm text-white-50"></i>&nbsp;&nbsp;Register</a>
+
+<p>&nbsp;</p>
+
+<script>
+  url_register = "{{ url_for('api_bp.api_register_service') }}";
+</script>
+<script src="{{ url_for('frontend_bp.static', filename='js/register-functions.js') }}"></script>
+
+
+{% endblock %}

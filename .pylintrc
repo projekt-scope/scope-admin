@@ -1,0 +1,8 @@
+[BASIC]
+good-names=
+    i,
+    e,
+    app
+
+[LOGGING]
+logging-format-style=fst

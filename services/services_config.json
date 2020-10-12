@@ -1,0 +1,22 @@
+{
+  "internal": {
+    "fuseki-service": {
+      "tag": "fuseki-service",
+      "core-service": "true"
+    },
+    "sparql-service": {
+      "tag": "sparql-service",
+      "core-service": "true"
+    }
+
+  },
+  "external": {
+    "example-external-service": {
+      "name": "Example External Service",
+      "description": "Calculate something on a different server.",
+      "start": "today",
+      "adress": "127.0.0.1",
+      "port": "12345"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Flask = "==0.12.2"
+docker = "*"
+Werkzeug="==0.16.1"
+gitpython="*"
+coloredlogs="*"
+flask-restx="*"
+flask_sqlalchemy="*"
+
+
+[dev-packages]
+pydocstyle = "*"
+flake8 = "*"
+"autopep8" = "*"
+black = "==19.3b0"
+pre-commit = "*"
+v = {editable = true,version = "*"}
+
+[requires]
+python_version = "3.6"

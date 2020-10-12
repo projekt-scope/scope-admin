@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+{{ super() }}
+{% block title %}SCOPE - Dashboard{% endblock %}
+{% block subtitle %}
+{% if config %}
+  {% if status==True %}
+    <i class="fas fa-circle fa-sm status-running" id="status"></i>
+  {% else %}
+    <i class="fas fa-circle fa-sm status-stop" id="status"></i>
+  {% endif %}
+  {{config["name"]}}
+  {% else %}
+  The {{tag}}-folder was not found in the scope-admin file tree. You have to add this folder with a correct config.json manually or by using the git registration.
+  {% endif %}
+
+  {% endblock %}
+
+{% block content %}
+{% if config %}
+<div id="buttons-options">
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="build"><i
+      class="fas fa-hammer fa-sm text-white-50"></i>&nbsp;&nbsp;Install</a>
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="uninstall"><i
+      class="fas fa-trash fa-sm text-white-50"></i>&nbsp;&nbsp;Uninstall</a>
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="restart"><i
+      class="fas fa-play fa-sm text-white-50" id="restart-icon"></i>
+  <div id="restart-text" style="display:inline;">&nbsp;&nbsp;Start</div>
+  </a>
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="stop"><i
+      class="fas fa-stop fa-sm text-white-50"></i>&nbsp;&nbsp;Stop</a>
+</div>
+
+
+<div id="button-webinterface">
+  <a href="/../webinterface/{{tag}}"
+    class="btn btn-sm btn-primary shadow-sm" id="web"><i
+      class="fas fa-window-maximize fa-sm text-white-50"></i>&nbsp;&nbsp;Webinterface</a>
+</div>
+
+
+<p id="description">
+  {{config["description"]}}
+</p>
+
+<h1 class="h4 mb-2 text-gray-800"> Config </h1>
+<textarea id="service-config" class="service-config" style="height:auto;">{{config["environment"]|tojson}}</textarea>
+<!-- <textarea>{{config["environment_backup"]}}</textarea> -->
+<div class="buttons-config">
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="save-config"><i
+      class="fas fa-save fa-sm text-white-50"></i>&nbsp;&nbsp;Save</a>
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="restore-config"><i
+      class="fas fa-trash-restore fa-sm text-white-50"></i>&nbsp;&nbsp;Restore</a>
+</div>
+
+<h1 class="h4 mb-2 text-gray-800"> Ports </h1>
+<div class="buttons-config">
+
+  <table>
+    <tbody>
+      <tr>
+        <th>Container</th>
+        <th>Host</th>
+        <th>Description</th>
+      </tr>
+      <!---->
+      {% for key, value in config["ports"].items() %}
+      <tr>
+        <td id="container_port">
+          <!---->{{key}}
+          <!---->
+        </td>
+        <td>
+          <input placeholder="{{value}}" no-label-float="" tabindex="0" aria-disabled="false" id="port"></input>
+        </td>
+        <td>
+          Interface
+        </td>
+
+      </tr>
+
+      {% endfor %}
+      <!---->
+    </tbody>
+  </table>
+</div>
+<div class="buttons-config">
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="save-port"><i
+      class="fas fa-save fa-sm text-white-50"></i>&nbsp;&nbsp;Save</a>
+</div>
+
+
+<h1 class="h4 mb-2 text-gray-800"> Logs </h1>
+<textarea id="service-logs">{{logs}}</textarea>
+<div class="buttons-config">
+  <a href="javascript:void(0)" class="btn btn-sm btn-primary shadow-sm" id="refresh-logs"><i
+      class="fas fa-redo fa-sm text-white-50"></i>&nbsp;&nbsp;Refresh</a>
+</div>
+
+{% endif %}
+<script>
+  url = "{{ url_for('api_bp.api_service') }}";
+  url_config = "{{ url_for('api_bp.api_service_config') }}";
+  url_port = "{{ url_for('api_bp.api_service_port') }}";
+  tag = "{{ config["tag"] }}";
+  {% if config %}
+  // restore_config_text = "{{config["environment_backup"] | tojson}}";
+  {% endif %}
+</script>
+
+<script src="{{ url_for('frontend_bp.static', filename='js/service-functions.js') }}"></script>
+
+{% endblock %}
