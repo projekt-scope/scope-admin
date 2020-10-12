@@ -1,0 +1,18 @@
+# # Development environment overrides of the base configuration
+version: "3"
+
+services:
+  traefik:
+    volumes:
+      - ./dev_traefik.yaml:/etc/traefik/traefik.yaml
+  scope-admin:
+    environment:
+      - MODE=DEVELOPMENT
+    volumes:
+      - ./:/app
+    command: python3 runserver.py --port 1234
+    labels:
+      # Host(`localhost`)
+      - "traefik.http.routers.admin.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.admin.entrypoints=web"
+      - "traefik.http.routers.admin.tls=false"

@@ -1,0 +1,7 @@
+http:
+  middlewares:
+    scope-auth:
+      basicAuth:
+        users:
+          # admin:test
+          - "admin:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/"

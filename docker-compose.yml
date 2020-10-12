@@ -1,0 +1,41 @@
+# Base configuration
+version: '3'
+
+services:
+  traefik:
+    # The official v2 Traefik docker image
+    image: traefik:v2.2
+    ports:
+      # The HTTP port
+      - "80:80"
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./file-provider.yml:/etc/traefik/file-provider.yml
+        - "./letsencrypt:/letsencrypt"
+
+    labels:
+      - "traefik.enable=false"
+
+  scope-admin:
+    build: ./
+    container_name: scope-admin
+    restart: unless-stopped
+    ports:
+      - 1234:1234
+    volumes:
+      # So that scope-admin can listen to the Docker events
+        - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.admin.middlewares=scope-auth@file"
+
+
+
+networks:
+    default:
+        external:
+            name: scope-net

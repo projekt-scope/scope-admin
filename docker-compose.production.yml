@@ -1,0 +1,22 @@
+# # Development environment overrides of the base configuration
+version: "3"
+
+services:
+  traefik:
+    environment:
+      - EMAIL=${EMAIL}
+    volumes:
+      - ./traefik.yaml:/etc/traefik/traefik.yaml
+  scope-admin:
+    volumes:
+      - ./:/app
+    environment:
+      - MODE=PRODUCTION
+      - DOMAIN=${DOMAIN}
+    restart: always
+    command: gunicorn --bind 0.0.0.0:1234 runserver:app --timeout=200
+    labels:
+      - "traefik.http.routers.admin.rule=Host(`${DOMAIN}`) && PathPrefix(`/`)"
+      - "traefik.http.routers.admin.entrypoints=websecure,web"
+      - "traefik.http.routers.admin.tls=true"
+      - "traefik.http.routers.admin.tls.certresolver=myresolver"

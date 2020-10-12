@@ -1,0 +1,40 @@
+entrypoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+
+api:
+  insecure: false
+  dashboard: true
+  debug: false
+
+log:
+  level: ERROR
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    network: scope-net
+    exposedByDefault: false
+
+  file:
+    filename: /etc/traefik/file-provider.yml
+    watch: true
+
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: ${EMAIL}
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
+      tlschallenge: true
