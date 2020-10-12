@@ -1,0 +1,23 @@
+{
+  "name": "Fuseki Service",
+  "tag": "fuseki-service",
+  "version": "1",
+  "docker-hub": "False",
+  "description": "Datastorage with fuseki.",
+  "start-page": "/index.html",
+  "environment": {
+    "ADMIN_PASSWORD": "test"
+  },
+  "environment_backup": {
+    "ADMIN_PASSWORD": "admin"
+  },
+  "ports": {
+    "3030/tcp": "3030"
+  },
+  "volumes": {
+    "fuseki-db-data": {
+      "bind": "/fuseki",
+      "mode": "rw"
+    }
+  }
+}

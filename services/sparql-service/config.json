@@ -1,0 +1,20 @@
+{
+  "name": "Sparql Service",
+  "tag": "sparql-service",
+  "version": "1",
+  "docker-hub": "False",
+  "description": "Sparql to sparql endpoint.",
+  "start-page": "/",
+  "environment": {
+    "FUSEKI_ADMIN_PASSWORD": "test",
+    "LC_ADDR_fuseki_db": "http://fuseki-service:3030"
+  },
+  "environment_backup": {
+    "LC_ADDR_fuseki_db": "http://fuseki-service:3030",
+    "FUSEKI_ADMIN_PASSWORD": "admin"
+  },
+  "ports": {
+    "22631/tcp": "22631"
+  },
+  "volumes": {}
+}
